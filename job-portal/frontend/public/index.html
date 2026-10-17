@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JobPortal - Find your next job</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav id="nav"></nav>
+
+  <div class="container">
+    <h1>Find your next job</h1>
+
+    <form id="searchForm" class="search-bar">
+      <input type="text" id="keyword" placeholder="Job title or company">
+      <input type="text" id="location" placeholder="Location">
+      <select id="type">
+        <option value="">All types</option>
+        <option>Full-time</option>
+        <option>Part-time</option>
+        <option>Internship</option>
+        <option>Remote</option>
+        <option>Contract</option>
+      </select>
+      <button type="submit">Search</button>
+    </form>
+
+    <div id="error" class="msg"></div>
+    <div id="jobs"></div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/jobs.js"></script>
+</body>
+</html>

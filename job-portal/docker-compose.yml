@@ -1,0 +1,42 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: jobportal-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: jobportal
+      MYSQL_USER: jobuser
+      MYSQL_PASSWORD: jobpass
+    volumes:
+      - mysql_data:/var/lib/mysql   # keeps your data when containers restart
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootpass"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  backend:
+    build: ./backend
+    container_name: jobportal-backend
+    depends_on:
+      db:
+        condition: service_healthy   # wait until MySQL is ready
+    environment:
+      DB_HOST: db
+      DB_NAME: jobportal
+      DB_USER: jobuser
+      DB_PASSWORD: jobpass
+      JWT_SECRET: change-this-secret-key-to-something-long-and-random-123456
+    ports:
+      - "8080:8080"                  # optional: lets you test the API directly
+
+  frontend:
+    build: ./frontend
+    container_name: jobportal-frontend
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"                    # open http://localhost:3000
+
+volumes:
+  mysql_data:
